@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"content="Secure AES-256 encryption tool with subtle particle animations and curly cursor effect.">
+    <title>Secure Encryption Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #121212;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 4;
+            /* Reduced opacity for subtler effect */
+        }
+
+        .hexagon-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: -1;
+            perspective: 1000px;
+            opacity: 0.2;
+        }
+
+        .hexagon {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateHexagon 20s linear infinite;
+        }
+
+        .hexagon-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #FFD700;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .hexagon-face:nth-child(1) {
+            transform: rotateY(0deg) translateZ(100px);
+        }
+
+        .hexagon-face:nth-child(2) {
+            transform: rotateY(60deg) translateZ(100px);
+        }
+
+        .hexagon-face:nth-child(3) {
+            transform: rotateY(120deg) translateZ(100px);
+        }
+
+        .hexagon-face:nth-child(4) {
+            transform: rotateY(180deg) translateZ(100px);
+        }
+
+        .hexagon-face:nth-child(5) {
+            transform: rotateY(240deg) translateZ(100px);
+        }
+
+        .hexagon-face:nth-child(6) {
+            transform: rotateY(300deg) translateZ(100px);
+        }
+
+        @keyframes rotateHexagon {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        .container {
+            background: #1e1e1e;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 14px;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        input:focus {
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 8px rgba(255, 215, 0, 0.3);
+            outline: none;
+        }
+
+        .key-strength {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-right: 8px;
+        }
+
+        .strength-bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease, background 0.3s ease;
+            width: 0;
+        }
+
+        .strength-weak {
+            background: #ff4d4d;
+        }
+
+        .strength-medium {
+            background: #FFD700;
+        }
+
+        .strength-strong {
+            background: #00cc66;
+        }
+
+        .btn {
+            background: #FFD700;
+            color: #1e1e1e;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .btn:hover {
+            background: #ffea00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            margin: 16px auto;
+        }
+
+        .progress-ring-circle {
+            stroke: #333;
+            stroke-width: 3;
+            fill: transparent;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            transition: stroke-dashoffset 0.4s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-ring-circle.active {
+            stroke: url(#gradient);
+            stroke-dashoffset: 0;
+            animation: dash 1s ease-in-out;
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 100;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            min-height: 60px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            word-break: break-word;
+        }
+
+        #result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #result span {
+            display: inline-block;
+        }
+
+        .toast {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transform: translateX(300px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .error {
+            color: #ff4d4d;
+            font-size: 14px;
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            background: #2a2a2a;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .error.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <div class="hexagon-container">
+        <div class="hexagon">
+            <div class="hexagon-face"></div>
+            <div class="hexagon-face"></div>
+            <div class="hexagon-face"></div>
+            <div class="hexagon-face"></div>
+            <div class="hexagon-face"></div>
+            <div class="hexagon-face"></div>
+        </div>
+    </div>
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00cc66;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="container" id="container">
+        <h1>Secure Encryption Tool</h1>
+        <p class="subtitle">AES-256 Encryption for Sensitive Data</p>
+
+        <input type="text" id="inputText" placeholder="Enter text to encrypt or decrypt"
+            aria-label="Text input for encryption or decryption">
+
+        <div style="position: relative;">
+            <input type="password" id="secretKey" placeholder="Enter secret key (min 8 chars)"
+                aria-label="Secret key input">
+            <div class="key-strength" id="keyStrength">
+                <div class="bar-container">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <span class="strength-text" id="strengthText">Enter key</span>
+            </div>
+        </div>
+
+        <div class="progress-ring" id="progressRing" style="display: none;">
+            <svg width="48" height="48">
+                <circle class="progress-ring-circle" cx="24" cy="24" r="15" />
+            </svg>
+            <div
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 500; color: #FFD700; font-size: 12px;">
+                Processing...</div>
+        </div>
+
+        <button class="btn" type="button" onclick="encryptText()">Encrypt</button>
+        <button class="btn" type="button" onclick="decryptText()">Decrypt</button>
+
+        <div id="result" role="region" aria-live="polite"></div>
+        <div id="error" class="error" role="alert"></div>
+    </div>
+
+    <div id="toast" class="toast" role="alert"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        // Canvas animation for geometric figures, particles, and curly cursor
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const shapes = [];
+        const particles = [];
+        const cursorParticles = [];
+        let mouseX = 0, mouseY = 0;
+        let lastMouseX = 0, lastMouseY = 0;
+
+        class Shape {
+            constructor(type, x, y, size, angle, speed, opacity) {
+                this.type = type;
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.angle = angle;
+                this.speed = speed;
+                this.opacity = opacity;
+                this.fadeSpeed = Math.random() * 0.005 + 0.002;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.lineWidth = 2;
+                if (this.type === 'triangle') {
+                    ctx.moveTo(this.x + this.size * Math.cos(this.angle), this.y + this.size * Math.sin(this.angle));
+                    ctx.lineTo(this.x + this.size * Math.cos(this.angle + Math.PI * 2 / 3), this.y + this.size * Math.sin(this.angle + Math.PI * 2 / 3));
+                    ctx.lineTo(this.x + this.size * Math.cos(this.angle + Math.PI * 4 / 3), this.y + this.size * Math.sin(this.angle + Math.PI * 4 / 3));
+                    ctx.closePath();
+                } else if (this.type === 'hexagon') {
+                    ctx.moveTo(this.x + this.size * Math.cos(this.angle), this.y + this.size * Math.sin(this.angle));
+                    for (let i = 1; i < 6; i++) {
+                        ctx.lineTo(this.x + this.size * Math.cos(this.angle + Math.PI * 2 / 6 * i), this.y + this.size * Math.sin(this.angle + Math.PI * 2 / 6 * i));
+                    }
+                    ctx.closePath();
+                }
+                ctx.stroke();
+            }
+
+            update() {
+                this.angle += this.speed;
+                this.opacity -= this.fadeSpeed;
+                if (this.opacity <= 0) {
+                    this.opacity = 0;
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y, vx, vy, opacity) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.opacity = opacity;
+                this.fadeSpeed = Math.random() * 0.012 + 0.008; // Faster fade for subtler effect
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 0.8, 0, Math.PI * 2); // Smaller 1.6px diameter
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.opacity -= this.fadeSpeed;
+                if (this.opacity <= 0) {
+                    this.opacity = 0;
+                }
+            }
+        }
+
+        class CursorParticle {
+            constructor(x, y, angle, speed, opacity, life) {
+                this.x = x;
+                this.y = y;
+                this.angle = angle;
+                this.speed = speed;
+                this.opacity = opacity;
+                this.life = life;
+                this.maxLife = life;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 1, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.fill();
+            }
+
+            update() {
+                // Curly motion with slight oscillation
+                this.angle += Math.sin(this.life * 0.1) * 0.2;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.life--;
+                this.opacity = this.life / this.maxLife;
+                if (this.life <= 0) {
+                    this.opacity = 0;
+                }
+            }
+        }
+
+        function createShape() {
+            const types = ['triangle', 'hexagon'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const size = Math.random() * 25 + 15; // Slightly smaller shapes
+            const angle = Math.random() * Math.PI * 2;
+            const speed = (Math.random() - 0.5) * 0.015; // Slower rotation
+            const opacity = Math.random() * 0.3 + 0.2; // Lower opacity
+            shapes.push(new Shape(type, x, y, size, angle, speed, opacity));
+        }
+
+        function createParticle() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 0.3 + 0.1; // Slower speed
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+            const opacity = Math.random() * 0.3 + 0.2; // Lower opacity
+            particles.push(new Particle(x, y, vx, vy, opacity));
+        }
+
+        function createCursorParticle() {
+            const dx = mouseX - lastMouseX;
+            const dy = mouseY - lastMouseY;
+            const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 0.5; // Slight angle variation
+            const speed = Math.sqrt(dx * dx + dy * dy) * 0.1 + 0.5;
+            const opacity = Math.random() * 0.5 + 0.5;
+            const life = 20 + Math.random() * 20; // Short life for trail
+            cursorParticles.push(new CursorParticle(mouseX, mouseY, angle, speed, opacity, life));
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.02) createShape(); // Less frequent shapes
+            if (Math.random() < 0.05) createParticle(); // Less frequent particles
+            if (Math.abs(mouseX - lastMouseX) > 1 || Math.abs(mouseY - lastMouseY) > 1) {
+                createCursorParticle(); // Create cursor particles on movement
+            }
+
+            shapes.forEach((shape, index) => {
+                shape.draw();
+                shape.update();
+                if (shape.opacity <= 0) shapes.splice(index, 1);
+            });
+
+            particles.forEach((particle, index) => {
+                particle.draw();
+                particle.update();
+                if (particle.opacity <= 0 || particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
+                    particles.splice(index, 1);
+                }
+            });
+
+            cursorParticles.forEach((particle, index) => {
+                particle.draw();
+                particle.update();
+                if (particle.life <= 0) cursorParticles.splice(index, 1);
+            });
+
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animateCanvas();
+
+        // Existing functionality
+        function evaluateKeyStrength(key) {
+            const length = key.length;
+            const hasUpper = /[A-Z]/.test(key);
+            const hasLower = /[a-z]/.test(key);
+            const hasNumbers = /\d/.test(key);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(key);
+
+            let score = 0;
+            if (length >= 8) score += 25;
+            if (length >= 12) score += 15;
+            if (hasUpper) score += 15;
+            if (hasLower) score += 15;
+            if (hasNumbers) score += 15;
+            if (hasSpecial) score += 15;
+
+            const bar = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+
+            bar.style.width = Math.min(score, 100) + '%';
+            bar.className = 'strength-bar';
+
+            if (score < 50) {
+                bar.classList.add('strength-weak');
+                text.textContent = 'Weak';
+            } else if (score < 75) {
+                bar.classList.add('strength-medium');
+                text.textContent = 'Medium';
+            } else {
+                bar.classList.add('strength-strong');
+                text.textContent = 'Strong';
+            }
+        }
+
+        document.getElementById('secretKey').addEventListener('input', function (e) {
+            evaluateKeyStrength(e.target.value);
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function displayResult(text, isSuccess = true) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (isSuccess) {
+                resultDiv.classList.add('show');
+                showToast('Operation successful!');
+            }
+
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy';
+            copyBtn.className = 'btn';
+            copyBtn.type = 'button';
+            copyBtn.style.marginTop = '8px';
+            copyBtn.style.fontSize = '14px';
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Copied to clipboard');
+                });
+            };
+
+            const textDiv = document.createElement('div');
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(10px)';
+                span.style.transition = `all 0.3s ease ${index * 0.02}s`;
+                textDiv.appendChild(span);
+            });
+
+            resultDiv.appendChild(textDiv);
+            resultDiv.appendChild(copyBtn);
+
+            setTimeout(() => {
+                textDiv.childNodes.forEach(span => {
+                    span.style.opacity = '1';
+                    span.style.transform = 'translateY(0)';
+                });
+            }, 100);
+        }
+
+        function showLoader() {
+            document.getElementById('progressRing').style.display = 'block';
+            const circle = document.querySelector('.progress-ring-circle');
+            circle.classList.add('active');
+            document.querySelectorAll('.btn').forEach(btn => btn.disabled = true);
+        }
+
+        function hideLoader() {
+            document.getElementById('progressRing').style.display = 'none';
+            const circle = document.querySelector('.progress-ring-circle');
+            circle.classList.remove('active');
+            document.querySelectorAll('.btn').forEach(btn => btn.disabled = false);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            hideLoader();
+            showToast('Operation failed', 'error');
+
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 4000);
+        }
+
+        function encryptText() {
+            const input = document.getElementById('inputText').value;
+            const key = document.getElementById('secretKey').value;
+
+            if (!input.trim()) {
+                showError('Please enter text to encrypt.');
+                return;
+            }
+            if (!key || key.length < 8) {
+                showError('Please enter a key with at least 8 characters.');
+                return;
+            }
+
+            showLoader();
+            setTimeout(() => {
+                try {
+                    const encrypted = CryptoJS.AES.encrypt(input, key).toString();
+                    displayResult(encrypted, true);
+                    hideLoader();
+                } catch (e) {
+                    showError('Encryption failed. Please try again.');
+                }
+            }, 1000);
+        }
+
+        function decryptText() {
+            const input = document.getElementById('inputText').value;
+            const key = document.getElementById('secretKey').value;
+
+            if (!input.trim()) {
+                showError('Please enter encrypted text to decrypt.');
+                return;
+            }
+            if (!key) {
+                showError('Please enter the secret key.');
+                return;
+            }
+
+            showLoader();
+            setTimeout(() => {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(input, key);
+                    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                    if (!decrypted) {
+                        throw new Error('Invalid key or corrupted data');
+                    }
+                    displayResult(decrypted, true);
+                    hideLoader();
+                } catch (e) {
+                    showError('Decryption failed. Check your key and input data.');
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('load', () => {
+            document.querySelector('.container').style.opacity = '0';
+            document.querySelector('.container').style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                document.querySelector('.container').style.transition = 'all 0.5s ease';
+                document.querySelector('.container').style.opacity = '1';
+                document.querySelector('.container').style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
