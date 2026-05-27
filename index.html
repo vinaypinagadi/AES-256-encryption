@@ -327,6 +327,138 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
+        /* Modern Audio Player Card & Upgraded Custom Player Styles */
+        .audio-card {
+            background: rgba(24, 24, 27, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .audio-card:hover {
+            border-color: rgba(252, 163, 17, 0.3);
+            box-shadow: 0 16px 50px rgba(252, 163, 17, 0.1);
+        }
+
+        .audio-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .audio-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .custom-player {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .player-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FCA311 0%, #d4820a 100%);
+            border: none;
+            color: #09090b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(252, 163, 17, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .player-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(252, 163, 17, 0.5);
+            background: linear-gradient(135deg, #ffb336 0%, #FCA311 100%);
+        }
+
+        .player-btn:active {
+            transform: scale(0.95);
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FCA311 0%, #ffc04d 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(252, 163, 17, 0.6);
+            transition: width 0.1s linear;
+        }
+
+        /* 15 Bar Glowing Audio Wave visualizer */
+        .wave-visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 5px;
+            height: 40px;
+            margin: 15px auto 5px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            height: 4px;
+            background: rgba(252, 163, 17, 0.15);
+            border-radius: 2px;
+            transition: height 0.15s ease, background-color 0.3s ease;
+        }
+
+        /* Active animation when audio is playing */
+        .wave-visualizer.playing .wave-bar {
+            background: linear-gradient(180deg, #FCA311 0%, #ffc04d 100%);
+            box-shadow: 0 0 5px rgba(252, 163, 17, 0.4);
+        }
+
+        .wave-visualizer.playing .wave-bar:nth-child(1) { animation: wavePulse 0.45s infinite alternate ease-in-out; }
+        .wave-visualizer.playing .wave-bar:nth-child(2) { animation: wavePulse 0.35s infinite alternate ease-in-out; animation-delay: 0.1s; }
+        .wave-visualizer.playing .wave-bar:nth-child(3) { animation: wavePulse 0.55s infinite alternate ease-in-out; animation-delay: 0.05s; }
+        .wave-visualizer.playing .wave-bar:nth-child(4) { animation: wavePulse 0.4s infinite alternate ease-in-out; animation-delay: 0.15s; }
+        .wave-visualizer.playing .wave-bar:nth-child(5) { animation: wavePulse 0.5s infinite alternate ease-in-out; animation-delay: 0.2s; }
+        .wave-visualizer.playing .wave-bar:nth-child(6) { animation: wavePulse 0.3s infinite alternate ease-in-out; animation-delay: 0.1s; }
+        .wave-visualizer.playing .wave-bar:nth-child(7) { animation: wavePulse 0.6s infinite alternate ease-in-out; animation-delay: 0.05s; }
+        .wave-visualizer.playing .wave-bar:nth-child(8) { animation: wavePulse 0.4s infinite alternate ease-in-out; animation-delay: 0.25s; }
+        .wave-visualizer.playing .wave-bar:nth-child(9) { animation: wavePulse 0.5s infinite alternate ease-in-out; animation-delay: 0.1s; }
+        .wave-visualizer.playing .wave-bar:nth-child(10) { animation: wavePulse 0.35s infinite alternate ease-in-out; animation-delay: 0.15s; }
+        .wave-visualizer.playing .wave-bar:nth-child(11) { animation: wavePulse 0.45s infinite alternate ease-in-out; animation-delay: 0.05s; }
+        .wave-visualizer.playing .wave-bar:nth-child(12) { animation: wavePulse 0.55s infinite alternate ease-in-out; animation-delay: 0.2s; }
+        .wave-visualizer.playing .wave-bar:nth-child(13) { animation: wavePulse 0.4s infinite alternate ease-in-out; animation-delay: 0.1s; }
+        .wave-visualizer.playing .wave-bar:nth-child(14) { animation: wavePulse 0.5s infinite alternate ease-in-out; animation-delay: 0.15s; }
+        .wave-visualizer.playing .wave-bar:nth-child(15) { animation: wavePulse 0.3s infinite alternate ease-in-out; animation-delay: 0.25s; }
+
+        @keyframes wavePulse {
+            0% { height: 4px; }
+            100% { height: 36px; }
+        }
+
         #revealedResult {
             border-radius: 12px;
             border: 1px solid var(--border);
@@ -749,8 +881,8 @@
                     <span id="stegoStrengthText">Enter key</span>
                 </div>
 
-                <button class="btn btn-primary" style="width:100%;" onclick="hideInImage()">HIDE MESSAGE IN
-                    IMAGE</button>
+                <button class="btn btn-primary" style="width:100%;" onclick="hideInImage()">HIDE MESSAGE IN IMAGE</button>
+                <div id="stegoError" class="error"></div>
 
                 <div id="stegoResultSection" style="display:none; margin-top:30px;">
                     <h3 style="margin-bottom:12px; color:var(--primary);">Stego Image Ready</h3>
@@ -780,6 +912,7 @@
                 </div>
 
                 <button class="btn btn-primary" style="width:100%;" onclick="revealFromImage()">REVEAL MESSAGE</button>
+                <div id="revealError" class="error"></div>
 
                 <div id="revealedResult" class="result-box"></div>
             </div>
@@ -815,6 +948,58 @@
                 </div>
 
                 <button class="btn btn-primary" style="width:100%;" onclick="generateAudioStego()">GENERATE DIGITAL SOUND (MP3)</button>
+                <div id="audioHideError" class="error"></div>
+
+                <!-- STEGO AUDIO RESULT SECTION -->
+                <div id="audioResultSection" style="display:none; margin-top:30px;">
+                    <h3 style="margin-bottom:12px; color:var(--primary);">Stego Audio Ready</h3>
+                    
+                    <div class="audio-card">
+                        <div class="audio-info">
+                            <div class="audio-title">
+                                <i data-lucide="headphones" style="color: #FCA311; width: 18px; height: 18px;"></i>
+                                <span style="font-weight:600; letter-spacing:0.5px;">secure-digital-sound.mp3</span>
+                            </div>
+                            <div class="audio-duration" id="audioHideTime">0:00 / 0:00</div>
+                        </div>
+                        
+                        <div class="custom-player">
+                            <button class="player-btn" id="audioHidePlayBtn" onclick="togglePlayAudio('audioHidePreview', 'audioHidePlayBtn', 'audioHideVisualizer')">
+                                <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                            </button>
+                            
+                            <div class="progress-container" id="audioHideProgressContainer">
+                                <div class="progress-bar-fill" id="audioHideProgressFill"></div>
+                            </div>
+
+                            <button class="player-btn" id="downloadAudioBtn" title="Download Stego Audio (.MP3)">
+                                <i data-lucide="download" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+
+                        <!-- 15 bar digital audio visualizer -->
+                        <div class="wave-visualizer" id="audioHideVisualizer">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+
+                        <!-- Hidden native audio element -->
+                        <audio id="audioHidePreview" style="display:none;"></audio>
+                    </div>
+                </div>
             </div>
 
             <!-- REVEAL FROM AUDIO SUB-TAB -->
@@ -823,7 +1008,51 @@
                     <p style="color:var(--text-secondary); font-size:14px;">Drag &amp; drop MP3 file or click to upload</p>
                     <input type="file" id="audioRevealFile" accept=".mp3,audio/mpeg" style="display:none;">
                 </div>
-                <div id="audioRevealPreview" style="display:none; text-align:center; margin-bottom:20px;"></div>
+                
+                <!-- CUSTOM REVEAL PREVIEW SECTION -->
+                <div id="audioRevealPreviewSection" style="display:none; margin-bottom:24px;">
+                    <div class="audio-card" style="margin-top: 0;">
+                        <div class="audio-info">
+                            <div class="audio-title">
+                                <i data-lucide="file-audio" style="color: #FCA311; width: 18px; height: 18px;"></i>
+                                <span id="audioRevealFileName" style="font-weight:600; letter-spacing:0.5px;">uploaded-audio.mp3</span>
+                            </div>
+                            <div class="audio-duration" id="audioRevealTime">0:00 / 0:00</div>
+                        </div>
+                        
+                        <div class="custom-player">
+                            <button class="player-btn" id="audioRevealPlayBtn" onclick="togglePlayAudio('audioRevealPreview', 'audioRevealPlayBtn', 'audioRevealVisualizer')">
+                                <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                            </button>
+                            
+                            <div class="progress-container" id="audioRevealProgressContainer">
+                                <div class="progress-bar-fill" id="audioRevealProgressFill"></div>
+                            </div>
+                        </div>
+
+                        <!-- 15 bar digital audio visualizer -->
+                        <div class="wave-visualizer" id="audioRevealVisualizer">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+
+                        <!-- Hidden native audio element -->
+                        <audio id="audioRevealPreview" style="display:none;"></audio>
+                    </div>
+                </div>
 
                 <div class="password-wrapper">
                     <input type="password" id="audioRevealKeyInput" placeholder="Enter secret key">
@@ -831,6 +1060,7 @@
                 </div>
 
                 <button class="btn btn-primary" style="width:100%;" onclick="revealFromAudio()">REVEAL MESSAGE</button>
+                <div id="audioRevealError" class="error"></div>
 
                 <div id="audioRevealedResult" class="result-box"></div>
             </div>
@@ -1170,7 +1400,7 @@
             const key = document.getElementById('stegoKey').value;
 
             if (!file || !msg || key.length < 8) {
-                return showError('textError', 'Image, message & strong key required');
+                return showError('stegoError', 'Image, message & strong key required');
             }
 
             showLoader();
@@ -1178,10 +1408,18 @@
             img.onload = () => {
                 try {
                     const encrypted = CryptoJS.AES.encrypt(msg, key).toString();
+                    const requiredBits = 32 + encrypted.length * 8;
+                    const availableBits = img.width * img.height * 3;
+                    
+                    if (requiredBits > availableBits) {
+                        throw new Error(`Image too small! Required: ${requiredBits} bits, Available: ${availableBits} bits. Try a larger image or a shorter message.`);
+                    }
+
                     let binary = encrypted.length.toString(2).padStart(32, '0');
                     for (let char of encrypted) binary += char.charCodeAt(0).toString(2).padStart(8, '0');
 
-                    const data = getImageData(img).data;
+                    const imageData = getImageData(img);
+                    const data = imageData.data;
                     let idx = 0;
                     for (let i = 0; i < data.length && idx < binary.length; i += 4) {
                         for (let ch = 0; ch < 3; ch++) {
@@ -1192,7 +1430,7 @@
 
                     const out = document.createElement('canvas');
                     out.width = img.width; out.height = img.height;
-                    out.getContext('2d').putImageData(new ImageData(data, img.width, img.height), 0, 0);
+                    out.getContext('2d').putImageData(imageData, 0, 0);
 
                     document.getElementById('stegoPreview').src = out.toDataURL('image/png');
                     document.getElementById('stegoResultSection').style.display = 'block';
@@ -1209,25 +1447,36 @@
                     showToast('Message hidden invisibly!');
                     hideLoader();
                 } catch (e) {
-                    showError('textError', 'Failed – try smaller message');
+                    showError('stegoError', e.message || 'Failed – try smaller message');
                     hideLoader();
                 }
+            };
+            img.onerror = () => {
+                showError('stegoError', 'Failed to load cover image');
+                hideLoader();
             };
             img.src = URL.createObjectURL(file);
         }
 
         function downloadStego() {
+            const src = document.getElementById('stegoPreview').src;
+            if (!src) {
+                showError('stegoError', 'No image generated to download');
+                return;
+            }
             const link = document.createElement('a');
-            link.href = document.getElementById('stegoPreview').src;
+            link.href = src;
             link.download = 'hidden-message.png';
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
             showToast('Downloaded – keep it safe!');
         }
 
         function revealFromImage() {
             const file = document.getElementById('revealImage').files[0];
             const key = document.getElementById('revealKeyInput').value;
-            if (!file || !key) return showError('textError', 'Upload image and enter key');
+            if (!file || !key) return showError('revealError', 'Upload image and enter key');
 
             showLoader();
             const img = new Image();
@@ -1239,22 +1488,121 @@
                         for (let ch = 0; ch < 3; ch++) bin += (data[i + ch] & 1);
                     }
                     const len = parseInt(bin.slice(0, 32), 2);
+                    if (isNaN(len) || len <= 0 || len * 8 > bin.length - 32) {
+                        throw new Error("No hidden message found or invalid image format.");
+                    }
                     const cipherBin = bin.slice(32, 32 + len * 8);
                     let cipher = '';
                     for (let i = 0; i < cipherBin.length; i += 8) {
                         cipher += String.fromCharCode(parseInt(cipherBin.slice(i, i + 8), 2));
                     }
                     const dec = CryptoJS.AES.decrypt(cipher, key).toString(CryptoJS.enc.Utf8);
-                    if (!dec) throw new Error();
+                    if (!dec) throw new Error("Invalid decryption key or corrupted data.");
                     document.getElementById('revealedResult').innerHTML = `<strong>Message:</strong><br><span style="font-family:monospace;">${dec}</span>`;
                     showToast('Message revealed!', 'success');
                     hideLoader();
                 } catch (e) {
-                    showError('textError', 'Invalid key or no hidden message');
+                    showError('revealError', e.message || 'Invalid key or no hidden message');
                     hideLoader();
                 }
             };
+            img.onerror = () => {
+                showError('revealError', 'Failed to load stego image');
+                hideLoader();
+            };
             img.src = URL.createObjectURL(file);
+        }
+
+        // =============================================
+        // CUSTOM FUTURISTIC AUDIO PLAYER CONTROLS
+        // =============================================
+        function formatAudioTime(secs) {
+            if (isNaN(secs) || secs === Infinity) return '0:00';
+            const minutes = Math.floor(secs / 60);
+            const seconds = Math.floor(secs % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function togglePlayAudio(audioId, btnId, visualizerId) {
+            const audio = document.getElementById(audioId);
+            const btn = document.getElementById(btnId);
+            const viz = document.getElementById(visualizerId);
+            
+            if (audio.paused) {
+                // Pause all other audios first
+                document.querySelectorAll('audio').forEach(el => {
+                    if (el.id !== audioId) {
+                        el.pause();
+                        // Reset other buttons
+                        const otherBtnId = el.id === 'audioHidePreview' ? 'audioHidePlayBtn' : 'audioRevealPlayBtn';
+                        const otherVizId = el.id === 'audioHidePreview' ? 'audioHideVisualizer' : 'audioRevealVisualizer';
+                        const otherBtn = document.getElementById(otherBtnId);
+                        const otherViz = document.getElementById(otherVizId);
+                        if (otherBtn) otherBtn.innerHTML = `<i data-lucide="play" style="width: 18px; height: 18px;"></i>`;
+                        if (otherViz) otherViz.classList.remove('playing');
+                    }
+                });
+                
+                audio.play();
+                btn.innerHTML = `<i data-lucide="pause" style="width: 18px; height: 18px;"></i>`;
+                viz.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.innerHTML = `<i data-lucide="play" style="width: 18px; height: 18px;"></i>`;
+                viz.classList.remove('playing');
+            }
+            if (window.lucide) window.lucide.createIcons();
+        }
+
+        function resetCustomPlayer(audioId, btnId, fillId, timeId, visualizerId) {
+            const audio = document.getElementById(audioId);
+            const btn = document.getElementById(btnId);
+            const fill = document.getElementById(fillId);
+            const time = document.getElementById(timeId);
+            const viz = document.getElementById(visualizerId);
+            
+            audio.pause();
+            audio.currentTime = 0;
+            btn.innerHTML = `<i data-lucide="play" style="width: 18px; height: 18px;"></i>`;
+            fill.style.width = '0%';
+            time.textContent = `0:00 / 0:00`;
+            viz.classList.remove('playing');
+            if (window.lucide) window.lucide.createIcons();
+        }
+
+        function initCustomAudioProgress(audioId, progressContainerId, progressFillId, timeId, btnId, visualizerId) {
+            const audio = document.getElementById(audioId);
+            const container = document.getElementById(progressContainerId);
+            const fill = document.getElementById(progressFillId);
+            const timeDisplay = document.getElementById(timeId);
+            const btn = document.getElementById(btnId);
+            const viz = document.getElementById(visualizerId);
+            
+            audio.addEventListener('timeupdate', () => {
+                const percentage = (audio.currentTime / (audio.duration || 1)) * 100;
+                fill.style.width = percentage + '%';
+                timeDisplay.textContent = `${formatAudioTime(audio.currentTime)} / ${formatAudioTime(audio.duration)}`;
+            });
+            
+            audio.addEventListener('loadedmetadata', () => {
+                timeDisplay.textContent = `0:00 / ${formatAudioTime(audio.duration)}`;
+            });
+            
+            audio.addEventListener('ended', () => {
+                btn.innerHTML = `<i data-lucide="play" style="width: 18px; height: 18px;"></i>`;
+                viz.classList.remove('playing');
+                fill.style.width = '0%';
+                audio.currentTime = 0;
+                if (window.lucide) window.lucide.createIcons();
+            });
+            
+            container.addEventListener('click', (e) => {
+                const rect = container.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const percentage = Math.max(0, Math.min(1, clickX / width));
+                audio.currentTime = percentage * (audio.duration || 0);
+            });
         }
 
         // =============================================
@@ -1263,7 +1611,7 @@
         function startVoiceInput() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                showError('textError', 'Speech recognition not supported in this browser. Try Chrome.');
+                showError('audioHideError', 'Speech recognition not supported in this browser. Try Chrome.');
                 return;
             }
             const recognition = new SpeechRecognition();
@@ -1282,7 +1630,7 @@
             };
 
             recognition.onerror = (event) => {
-                showError('textError', 'Speech recognition error: ' + event.error);
+                showError('audioHideError', 'Speech recognition error: ' + event.error);
             };
 
             recognition.start();
@@ -1293,11 +1641,11 @@
             const key = document.getElementById('audioKey').value;
 
             if (!msg || key.length < 8) {
-                return showError('textError', 'Message & strong key (8+ chars) required');
+                return showError('audioHideError', 'Message & strong key (8+ chars) required');
             }
 
             if (typeof lamejs === 'undefined') {
-                return showError('textError', 'MP3 encoder library is not loaded.');
+                return showError('audioHideError', 'MP3 encoder library is not loaded.');
             }
 
             showLoader();
@@ -1361,20 +1709,34 @@
                         finalBuffer.set(magicMarker, mp3ArrayBuffer.byteLength);
                         finalBuffer.set(payload, mp3ArrayBuffer.byteLength + magicMarker.byteLength);
                         
-                        // Download the final MP3
+                        // Set up preview and download in-page instead of auto-downloading
                         const finalBlob = new Blob([finalBuffer], { type: 'audio/mp3' });
-                        const link = document.createElement('a');
-                        link.href = URL.createObjectURL(finalBlob);
-                        link.download = 'secure-digital-sound.mp3';
-                        link.click();
+                        const audioUrl = URL.createObjectURL(finalBlob);
                         
-                        showToast('Digital sound generated & downloaded!', 'success');
+                        const audioPreview = document.getElementById('audioHidePreview');
+                        audioPreview.src = audioUrl;
+                        resetCustomPlayer('audioHidePreview', 'audioHidePlayBtn', 'audioHideProgressFill', 'audioHideTime', 'audioHideVisualizer');
+                        
+                        const downloadBtn = document.getElementById('downloadAudioBtn');
+                        downloadBtn.onclick = () => {
+                            const link = document.createElement('a');
+                            link.href = audioUrl;
+                            link.download = 'secure-digital-sound.mp3';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            showToast('Digital sound downloaded!', 'success');
+                        };
+                        
+                        document.getElementById('audioResultSection').style.display = 'block';
+                        
+                        showToast('Digital sound generated & preview ready!', 'success');
                         hideLoader();
                     };
                     fileReader.readAsArrayBuffer(mp3Blob);
 
                 } catch (e) {
-                    showError('textError', 'Failed to generate digital sound: ' + e.message);
+                    showError('audioHideError', 'Failed to generate digital sound: ' + e.message);
                     hideLoader();
                 }
             }, 100);
@@ -1385,7 +1747,7 @@
             const key = document.getElementById('audioRevealKeyInput').value;
             
             if (!file || !key) {
-                return showError('textError', 'Upload MP3 file and enter key');
+                return showError('audioRevealError', 'Upload MP3 file and enter key');
             }
 
             showLoader();
@@ -1433,7 +1795,7 @@
                     showToast('Message revealed successfully!', 'success');
                     
                 } catch (e) {
-                    showError('textError', 'Error: ' + e.message);
+                    showError('audioRevealError', 'Error: ' + e.message);
                 } finally {
                     hideLoader();
                 }
@@ -1550,10 +1912,14 @@
         // Key listeners
         document.getElementById('textKey').addEventListener('input', e => evaluateStrength(e.target.value, 'textStrengthBar', 'textStrengthText'));
         document.getElementById('stegoKey').addEventListener('input', e => evaluateStrength(e.target.value, 'stegoStrengthBar', 'stegoStrengthText'));
-        document.getElementById('audioKey').addEventListener('input', e => evaluateStrength(e.target.value, 'audioStrengthBar', 'audioStrengthText'));
+        document.getElementById('audioKey').addEventListener('input', e => {
+            evaluateStrength(e.target.value, 'audioStrengthBar', 'audioStrengthText');
+            document.getElementById('audioResultSection').style.display = 'none';
+        });
 
         document.getElementById('audioMessage').addEventListener('input', function () {
             document.getElementById('audioCharCounter').textContent = `${this.value.length} chars`;
+            document.getElementById('audioResultSection').style.display = 'none';
         });
 
         // Init drag & drops
@@ -1571,6 +1937,26 @@
         // Initialize preloader on page load
         window.addEventListener('load', () => {
             if (window.lucide) window.lucide.createIcons();
+            
+            // Initialize Custom Audio Progress Tracking
+            initCustomAudioProgress('audioHidePreview', 'audioHideProgressContainer', 'audioHideProgressFill', 'audioHideTime', 'audioHidePlayBtn', 'audioHideVisualizer');
+            initCustomAudioProgress('audioRevealPreview', 'audioRevealProgressContainer', 'audioRevealProgressFill', 'audioRevealTime', 'audioRevealPlayBtn', 'audioRevealVisualizer');
+            
+            // Intercept upload drag/drop event on audioRevealPreview
+            const revealAudio = document.getElementById('audioRevealPreview');
+            revealAudio.addEventListener('loadedmetadata', () => {
+                revealAudio.style.display = 'none';
+                document.getElementById('audioRevealPreviewSection').style.display = 'block';
+                
+                const fileNameDisplay = document.getElementById('audioRevealPreview-name');
+                if (fileNameDisplay) {
+                    const fileTitleSpan = document.getElementById('audioRevealFileName');
+                    fileTitleSpan.textContent = fileNameDisplay.innerText.replace('uploaded-audio.mp3', '').trim() || fileNameDisplay.innerText;
+                    fileNameDisplay.style.display = 'none';
+                }
+                
+                resetCustomPlayer('audioRevealPreview', 'audioRevealPlayBtn', 'audioRevealProgressFill', 'audioRevealTime', 'audioRevealVisualizer');
+            });
             
             document.querySelector('.main-container').style.opacity = '0';
             initPreloader();
